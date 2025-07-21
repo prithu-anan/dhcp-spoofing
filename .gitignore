@@ -1,0 +1,71 @@
+# NS-3 specific ignores
+build/
+cmake-cache/
+*.pyc
+__pycache__/
+*.o
+*.so
+*.a
+*.d
+*.exe
+*.log
+
+# Experiment outputs
+dhcp-spoof-results.csv
+output/
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.pdf
+
+# Python
+*.pyc
+__pycache__/
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+ENV/
+env.bak/
+venv.bak/
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.backup
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Log files
+*.log
+logs/
+
+# Data files
+*.dat
+*.csv
+*.json
+*.xml
+
+# Backup files
+*.orig
+*.rej 
