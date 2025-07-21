@@ -1,14 +1,57 @@
-# NS-3 specific ignores
-build/
-cmake-cache/
-*.pyc
-__pycache__/
+*.diff
+*.orig
+*.patch
+*.rej
+
 *.o
-*.so
-*.a
-*.d
-*.exe
+*.pyc
+*.pyo
+
+*.cwnd
+*.dat
 *.log
+*.mob
+*.pcap
+*.plt
+*.routes
+*.tr
+[D|U]l[A-Z][a-z]*Stats.txt
+
+\#*#
+*~
+
+testpy-output
+
+bindings/python/pybindgen/
+
+venv/
+
+ms_print.*
+massif.*
+coverity
+TAGS
+
+.lock-ns3_*
+.ns3rc
+
+build-dir/
+build/
+/.cproject
+/.project
+
+version.cache
+
+.gitlab-ci-local/
+.idea/
+cmake-*/
+vcpkg/
+
+.vs/
+.vscode
+
+# Ignore local cache used by e.g. clangd
+.cache/
+
 
 # Experiment outputs
 dhcp-spoof-results.csv
@@ -19,53 +62,10 @@ output/
 *.gif
 *.pdf
 
-# Python
-*.pyc
-__pycache__/
-*.pyo
-*.pyd
-.Python
-env/
-venv/
-.venv/
-ENV/
-env.bak/
-venv.bak/
-
-# IDE and editor files
-.vscode/
-.idea/
-*.swp
-*.swo
-*~
-.DS_Store
-Thumbs.db
-
-# Temporary files
-*.tmp
-*.temp
-*.bak
-*.backup
-
-# OS generated files
-.DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
-Thumbs.db
-
-# Log files
-*.log
-logs/
-
 # Data files
 *.dat
 *.csv
 *.json
 *.xml
 
-# Backup files
-*.orig
-*.rej 
+.venv
