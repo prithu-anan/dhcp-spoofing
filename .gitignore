@@ -52,7 +52,6 @@ vcpkg/
 # Ignore local cache used by e.g. clangd
 .cache/
 
-
 # Experiment outputs
 dhcp-spoof-results.csv
 output/
