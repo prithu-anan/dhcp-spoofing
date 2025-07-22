@@ -183,6 +183,7 @@ main (int argc, char *argv[])
   double clientStartInterval = 0.8; // Default interval between client starts
   uint32_t starvationInterval = 10; // Default starvation interval in milliseconds
   bool logEnabled = false;
+  bool pcapEnabled = true; // Default to enable PCAP generation
   
   CommandLine cmd;
   cmd.AddValue ("nClients", "Number of clients to simulate", nClients);
@@ -191,6 +192,7 @@ main (int argc, char *argv[])
   cmd.AddValue ("clientStartInterval", "Interval between client start times (seconds)", clientStartInterval);
   cmd.AddValue ("starvInterval", "Starvation attack interval (milliseconds)", starvationInterval);
   cmd.AddValue ("logEnabled", "Enable logging to file", logEnabled);
+  cmd.AddValue ("pcapEnabled", "Enable PCAP file generation", pcapEnabled);
   cmd.Parse (argc, argv);
 
   // Calculate the max address based on number of addresses
@@ -212,6 +214,21 @@ main (int argc, char *argv[])
   CsmaHelper csma; csma.SetChannelAttribute ("DataRate", StringValue ("100Mbps"));
                 csma.SetChannelAttribute ("Delay",    TimeValue (MilliSeconds (1)));
   auto devs = csma.Install (nodes);
+  
+  // Enable PCAP tracing on the CSMA channel if enabled
+  if (pcapEnabled)
+    {
+      // Remove existing traces directory and create a fresh one
+      std::string tracesDir = "traces";
+      std::string rmCmd = "rm -rf " + tracesDir;
+      std::string mkdirCmd = "mkdir -p " + tracesDir;
+      system(rmCmd.c_str());
+      system(mkdirCmd.c_str());
+      
+      // Enable PCAP with traces directory path
+      csma.EnablePcap (tracesDir + "/dhcp-spoof-enhanced", devs);
+      NS_LOG_INFO ("PCAP tracing enabled - fresh traces directory created: traces/dhcp-spoof-enhanced-*.pcap");
+    }
   Ipv4AddressHelper addr;
   addr.SetBase ("10.0.0.0", "255.255.255.0");
   addr.Assign (devs);
@@ -408,6 +425,21 @@ main (int argc, char *argv[])
   // Append results to CSV file
   AppendToCSV(nClients, nAddr, starvationStopTime, clientStartInterval, starvationInterval, 
               rogueCount, legitimateCount, noAddressCount);
+
+  // Summary of output files
+  if (pcapEnabled)
+    {
+      NS_LOG_INFO ("\n=== OUTPUT FILES ===");
+      NS_LOG_INFO ("PCAP files generated:");
+      NS_LOG_INFO ("  - traces/dhcp-spoof-enhanced-*.pcap (network traffic capture)");
+      NS_LOG_INFO ("CSV file:");
+      NS_LOG_INFO ("  - dhcp-spoof-results.csv (attack statistics)");
+      NS_LOG_INFO ("");
+      NS_LOG_INFO ("To analyze PCAP files, use tools like:");
+      NS_LOG_INFO ("  - Wireshark: wireshark traces/dhcp-spoof-enhanced-*.pcap");
+      NS_LOG_INFO ("  - tcpdump: tcpdump -r traces/dhcp-spoof-enhanced-*.pcap");
+      NS_LOG_INFO ("  - tshark: tshark -r traces/dhcp-spoof-enhanced-*.pcap -Y 'dhcp'");
+    }
 
   return 0;
 }
