@@ -222,8 +222,19 @@ main (int argc, char *argv[])
       std::string tracesDir = "traces";
       std::string rmCmd = "rm -rf " + tracesDir;
       std::string mkdirCmd = "mkdir -p " + tracesDir;
-      system(rmCmd.c_str());
-      system(mkdirCmd.c_str());
+      
+      // Execute commands and handle return values
+      int rmResult = system(rmCmd.c_str());
+      int mkdirResult = system(mkdirCmd.c_str());
+      
+      if (rmResult != 0)
+        {
+          NS_LOG_WARN ("Warning: Failed to remove traces directory (code: " << rmResult << ")");
+        }
+      if (mkdirResult != 0)
+        {
+          NS_LOG_ERROR ("Error: Failed to create traces directory (code: " << mkdirResult << ")");
+        }
       
       // Enable PCAP with traces directory path
       csma.EnablePcap (tracesDir + "/dhcp-spoof-enhanced", devs);
@@ -435,10 +446,6 @@ main (int argc, char *argv[])
       NS_LOG_INFO ("CSV file:");
       NS_LOG_INFO ("  - dhcp-spoof-results.csv (attack statistics)");
       NS_LOG_INFO ("");
-      NS_LOG_INFO ("To analyze PCAP files, use tools like:");
-      NS_LOG_INFO ("  - Wireshark: wireshark traces/dhcp-spoof-enhanced-*.pcap");
-      NS_LOG_INFO ("  - tcpdump: tcpdump -r traces/dhcp-spoof-enhanced-*.pcap");
-      NS_LOG_INFO ("  - tshark: tshark -r traces/dhcp-spoof-enhanced-*.pcap -Y 'dhcp'");
     }
 
   return 0;
