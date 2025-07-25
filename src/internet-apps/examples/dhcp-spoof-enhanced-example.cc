@@ -332,7 +332,7 @@ main (int argc, char *argv[])
       
       NS_LOG_INFO ("\n--- " << clientName << " Analysis ---");
       Ptr<Ipv4> ipv4 = client->GetObject<Ipv4> ();
-      NS_LOG_INFO (clientName << " network interfaces:");
+      // NS_LOG_INFO (clientName << " network interfaces:");
       
       bool hasRogueAddress = false;
       bool hasLegitimateAddress = false;
@@ -355,7 +355,7 @@ main (int argc, char *argv[])
               interfaceType = " (additional)";
             }
           
-          NS_LOG_INFO ("  Interface " << j << interfaceType << ":");
+          // NS_LOG_INFO ("  Interface " << j << interfaceType << ":");
           for (uint32_t k = 0; k < ipv4->GetNAddresses (j); k++)
             {
               Ipv4InterfaceAddress addr = ipv4->GetAddress (j, k);
@@ -372,9 +372,12 @@ main (int argc, char *argv[])
                 {
                   addrType = " (assigned)";
                 }
-              NS_LOG_INFO ("    Address " << k << ": " << addr.GetLocal () << "/" << addr.GetMask () << addrType);
+              // NS_LOG_INFO ("    Address " << k << ": " << addr.GetLocal () << "/" << addr.GetMask () << addrType);
+
+              if(k == 1)
+                NS_LOG_INFO ("Address: "  << addr.GetLocal () << "/" << addr.GetMask () << addrType);
               
-              // Check if this is a rogue address (10.0.0.201-254 range)
+              // Check if this is a rogue address (10.0.0.100-254 range)
               if (addr.GetLocal ().Get () >= Ipv4Address ("10.0.0.100").Get () && 
                   addr.GetLocal ().Get () <= Ipv4Address ("10.0.0.254").Get ())
                 {
