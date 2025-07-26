@@ -43,14 +43,14 @@ private:
   uint32_t m_expansionSize;       // How many addresses to add when expanding
   Time m_starvationLease;         // Very short lease for starvation attacks
   std::set<Mac48Address> m_legitimateClients; // Track legitimate clients
-  Time m_reservtionLease;
+  Time m_reservationLease;
   
   void NetHandler (Ptr<Socket> socket);
   void TimerHandler (void);
   void SendSpoofedOffer (DhcpHeader &discoverHdr, const Address &from);
   void SendSpoofedAck   (DhcpHeader &requestHdr,  const Address &from);
   void CleanupExpiredLeases (void);
-  Ipv4Address AllocateAddress (const Mac48Address &chaddr);
+  Ipv4Address AllocateAddress (const Mac48Address &chaddr, bool isDiscover);
   
   // Anti-starvation methods
   bool IsStarvationAttack (const Mac48Address &chaddr);

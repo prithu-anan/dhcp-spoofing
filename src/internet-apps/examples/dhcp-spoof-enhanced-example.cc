@@ -256,8 +256,8 @@ main (int argc, char *argv[])
   dhcp.SetServerAttribute ("StartTime", TimeValue (Seconds (0.1))); // Start early
   // Install DHCP server with configurable pool size
   dhcp.InstallDhcpServer (devs.Get (nClients + 1), // legit node's device
-                         Ipv4Address ("10.0.0.1"), // server address
-                         Ipv4Address ("10.0.0.0"), // pool network
+                         Ipv4Address ("10.0.10.9"), // server address
+                         Ipv4Address ("10.0.10.0"), // pool network
                          Ipv4Mask ("255.255.255.0"), // pool mask
                          Ipv4Address ("10.0.10.10"), // min address
                          Ipv4Address (legitMaxAddr.c_str ()), // max address - calculated from nAddr
@@ -269,7 +269,7 @@ main (int argc, char *argv[])
   rogueHelper.SetAttribute ("UseFakeAddresses", BooleanValue (true)); // Use fake addresses when pool is exhausted
   rogueHelper.SetAttribute ("DynamicExpansion", BooleanValue (true)); // Dynamically expand pool
   rogueHelper.SetAttribute ("ExpansionSize", UintegerValue (50)); // 50 addresses to add when expanding
-  rogueHelper.SetAttribute ("StarvationLease", TimeValue (Seconds (30))); // Short lease for starvation attacks
+  rogueHelper.SetAttribute ("StarvationLease", TimeValue (Seconds (5))); // Short lease for starvation attacks
   rogueHelper.Install (rogue);
 
   // Create nClients legitimate clients (start at different times to see different outcomes)
