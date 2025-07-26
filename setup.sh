@@ -2,4 +2,5 @@
 
 ./ns3 build
 
-./ns3 run "dhcp-spoof-enhanced-example --nClients=50 --nAddr=200 --starvStopTime=6.0 --clientStartInterval=0.1 --starvInterval=2 --logEnabled=true"
+./ns3 run "dhcp-spoof-enhanced-example --nClients=20 --nAddr=50 --starvStopTime=8.0 --clientStartInterval=0.2 --starvInterval=5 --logEnabled=true"
+

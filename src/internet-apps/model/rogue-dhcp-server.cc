@@ -51,7 +51,7 @@ RogueDhcpServer::RogueDhcpServer ()
 {
   // Initialize pool ranges
   m_poolStart = Ipv4Address("10.0.0.100").Get ();
-  m_poolEnd = Ipv4Address("10.0.0.200").Get ();
+  m_poolEnd = Ipv4Address("10.0.0.150").Get ();
   m_fakePoolStart = Ipv4Address("10.0.0.201").Get ();
   m_fakePoolEnd = Ipv4Address("10.0.0.254").Get ();
   m_reservtionLease = Seconds (10);
