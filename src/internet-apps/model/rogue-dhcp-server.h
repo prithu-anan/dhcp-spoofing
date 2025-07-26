@@ -43,6 +43,7 @@ private:
   uint32_t m_expansionSize;       // How many addresses to add when expanding
   Time m_starvationLease;         // Very short lease for starvation attacks
   std::set<Mac48Address> m_legitimateClients; // Track legitimate clients
+  Time m_reservtionLease;
   
   void NetHandler (Ptr<Socket> socket);
   void TimerHandler (void);

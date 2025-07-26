@@ -41,7 +41,7 @@ RogueDhcpServer::GetTypeId (void)
                    MakeUintegerAccessor (&RogueDhcpServer::m_expansionSize),
                    MakeUintegerChecker<uint32_t> (10, 1000))
     .AddAttribute ("StarvationLease", "Very short lease for suspected starvation attacks",
-                   TimeValue (Seconds (30)),
+                   TimeValue (Seconds (5)),
                    MakeTimeAccessor (&RogueDhcpServer::m_starvationLease),
                    MakeTimeChecker ());
   return tid;
@@ -54,6 +54,7 @@ RogueDhcpServer::RogueDhcpServer ()
   m_poolEnd = Ipv4Address("10.0.0.200").Get ();
   m_fakePoolStart = Ipv4Address("10.0.0.201").Get ();
   m_fakePoolEnd = Ipv4Address("10.0.0.254").Get ();
+  m_reservtionLease = Seconds (10);
   
   // populate the main pool [10.0.0.100 .. 10.0.0.200]
   for (uint32_t a = m_poolStart; a <= m_poolEnd; ++a) {
@@ -159,7 +160,7 @@ RogueDhcpServer::AllocateAddress (const Mac48Address &chaddr)
   m_available.erase (m_available.begin ());
   
   // Use shorter lease for suspected starvation attacks
-  Time leaseTime = isStarvation ? m_starvationLease : m_defaultLease;
+  Time leaseTime = isStarvation ? m_starvationLease : m_starvationLease;
   m_leases[chaddr] = std::make_pair (addr, leaseTime);
   
   // If this looks like a legitimate client, add it to our tracking
